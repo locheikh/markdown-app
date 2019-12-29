@@ -2,6 +2,8 @@ import React, { Component} from 'react';
 import './App.css';
 import { render } from 'react-dom';
 
+import marked from 'marked'
+
 import {sampleText } from './sampleText'
 
 class App extends Component {
@@ -12,8 +14,12 @@ class App extends Component {
     const text = event.target.value
     this.setState({text})
   }
-  
-  render(){
+
+   renderText = text =>{ 
+    const __html= marked(text, {sanitize: true})
+    return {__html:__html}
+   }  
+   render(){
     return (
       <div className="container">
         <div className="row"> 
@@ -25,10 +31,11 @@ class App extends Component {
               rows="35">
             </textarea>
           </div>
-          <div className="col-sm-6">  
-              <div> 
-                { this.state.text}
-              </div>
+          <div className="col-sm-6"> 
+            <div dangerouslySetInnerHTML=
+              {this.renderText(this.state.text)}>
+            </div> 
+
           </div>
 
         </div>
